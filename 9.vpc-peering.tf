@@ -3,9 +3,7 @@ data "aws_vpc" "ansible_vpc" {
 }
 
 data "aws_route_table" "ansible_vpc_rt" {
-  subnet_id = "subnet-0c509d9c408a5ca12"
-  #If subnet_id giving errors use route table id as below
-  #route_table_id = data.aws_route_table.ansible_vpc_rt.id
+  route_table_id = "rtb-07f904ba0e2e924ea"
 }
 
 resource "aws_vpc_peering_connection" "ansible-vpc-peering" {
@@ -34,7 +32,7 @@ resource "aws_route" "peering-to-ansible-vpc" {
 
 resource "aws_route" "peering-from-ansible-vpc" {
   route_table_id            = data.aws_route_table.ansible_vpc_rt.id
-  destination_cidr_block    = "172.60.0.0/16"
+  destination_cidr_block    = "172.60"
   vpc_peering_connection_id = aws_vpc_peering_connection.ansible-vpc-peering.id
   #depends_on                = [aws_route_table.terraform-public]
 }
